@@ -18,7 +18,6 @@ workspace("secondaryWorkspace").Usage
 
 Drilling in to a single data type to investigate a spike in e.g. Event Log data...
 
-
 ```kql
 Event 
 | where TimeGenerated > startofday(ago(30d))
