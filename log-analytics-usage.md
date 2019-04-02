@@ -14,7 +14,7 @@ workspace("secondaryWorkspace").Usage
 | summarize sum(Quantity) by Solution, bin(TimeGenerated, 1d), DataType, Workspace
 )
 | render timechart 
-```kql
+```
 
 Drilling in to a single data type to investigate a spike in e.g. Event Log data...
 
