@@ -13,19 +13,19 @@ workspace("secondaryWorkspace").Usage
 | extend Workspace = "Secondary"
 | summarize sum(Quantity) by Solution, bin(TimeGenerated, 1d), DataType, Workspace
 )
-| render timechart 
+| render timechart
 ```
 
 Drilling in to a single data type to investigate a spike in e.g. Event Log data...
 
 ```kql
-Event 
+Event
 | where TimeGenerated > startofday(ago(30d))
 | where _IsBillable == true 
 | extend computerName = tolower(tostring(split(Computer, '.')[0]))
 | where computerName != "" 
 | summarize TotalVolumeBytes=sum(_BilledSize) by computerName, bin(TimeGenerated, 1d)
-| render timechart 
+| render timechart
 ```
 
 Which solutions and data types make up the majority of the data usage?
