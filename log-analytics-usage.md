@@ -3,13 +3,13 @@
 ```kql
 workspace("primaryWorkspace").Usage
 | where TimeGenerated > startofday(ago(30d))
-| where IsBillable == true
+| where IsBillable
 | extend Workspace = "Primary"
 | summarize sum(Quantity) by Solution, bin(TimeGenerated, 1d), DataType, Workspace
 | union (
 workspace("secondaryWorkspace").Usage
 | where TimeGenerated > startofday(ago(30d))
-| where IsBillable == true
+| where IsBillable
 | extend Workspace = "Secondary"
 | summarize sum(Quantity) by Solution, bin(TimeGenerated, 1d), DataType, Workspace
 )
