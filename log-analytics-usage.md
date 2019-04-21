@@ -2,25 +2,25 @@
 
 ```kql
 workspace("primaryWorkspace").Usage
-| where TimeGenerated > startofday(ago(30d))
+| where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where IsBillable
 | extend Workspace = "Primary"
 | summarize sum(Quantity) by Solution, bin(TimeGenerated, 1d), DataType, Workspace
 | union (
 workspace("secondaryWorkspace").Usage
-| where TimeGenerated > startofday(ago(30d))
+| where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where IsBillable
 | extend Workspace = "Secondary"
 | summarize sum(Quantity) by Solution, bin(TimeGenerated, 1d), DataType, Workspace
 )
-| render timechart
+| render timechart with(title = 'Workspace Data Usage')
 ```
 
 Drilling in to a single data type to investigate a spike in e.g. Event Log data...
 
 ```kql
 Event
-| where TimeGenerated > startofday(ago(30d))
+| where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where _IsBillable == true 
 | extend computerName = tolower(tostring(split(Computer, '.')[0]))
 | where computerName != "" 
@@ -32,7 +32,7 @@ Which solutions and data types make up the majority of the data usage?
 
 ```kql
 Usage
-| where TimeGenerated > startofday(ago(30d))
+| where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where IsBillable
 | top-nested 1 of 'All' by AllData = round(sum(Quantity), 0)
 , top-nested 2 of Solution with others='Others' by SolutionTotal = round(sum(Quantity), 0)
