@@ -23,9 +23,9 @@ Event
 | where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where _IsBillable == true 
 | extend computerName = tolower(tostring(split(Computer, '.')[0]))
-| where computerName != "" 
-| summarize TotalVolumeBytes=sum(_BilledSize) by computerName, bin(TimeGenerated, 1d)
-| render timechart
+| where computerName != ""
+| summarize TotalVolumeMB = sum(_BilledSize / 1024 / 1024) by computerName, bin(TimeGenerated, 1d)
+| render barchart
 ```
 
 Which solutions and data types make up the majority of the data usage?
