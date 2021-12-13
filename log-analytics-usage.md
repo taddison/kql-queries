@@ -1,6 +1,6 @@
 ## Log Analytics Usage
 
-```kql
+```csl
 workspace("primaryWorkspace").Usage
 | where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where IsBillable
@@ -18,7 +18,7 @@ workspace("secondaryWorkspace").Usage
 
 Drilling in to a single data type to investigate a spike in e.g. Event Log data...
 
-```kql
+```csl
 Event
 | where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where _IsBillable == true 
@@ -30,7 +30,7 @@ Event
 
 Which solutions and data types make up the majority of the data usage?
 
-```kql
+```csl
 Usage
 | where TimeGenerated > startofday(ago(30d)) and TimeGenerated < startofday(now())
 | where IsBillable
